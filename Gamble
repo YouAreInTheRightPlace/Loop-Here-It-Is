@@ -1,0 +1,293 @@
+/* Duy Anh Nguyen
+Dec. 20
+Gamble_Donation_Update
+This program was written as an update of the previous program 'Gamble_Donation'. The new version let user decide their bet base on the assign money and play 
+again if they want to.
+
+Process:
+- Ask user bet and confirm.
+  + New update: '0' to go all in.
+- Ask user guess.
+- 2 dice role.
+  + If user correct: win 7 times their bet.
+  + If user wrong: lose their bet.
+- Ask if user want to play again.*/
+
+#include <iostream>
+#include <string>     // 'Cout' problem (cout is ambiguous)
+#include <time.h>
+#include <Windows.h>
+#include <conio.h>
+#include "Colours.h"
+using namespace std;
+
+// Main Program
+int main()
+{
+	int money;                              // User money
+	int bet;                                // User bet
+	int win;                                // Ammount of money user win
+	int correct;                            // Correct answer
+	int dice_1, dice_2;                     // Dice number 1 and 2
+	int t_dice;                             // The sum of both dice
+	int guess;                              // User guess (2-12)
+	char play_yn;                           // User choise to play again (Y/N)
+	int i;                                  // Random generator
+	bool bet_valid;                         // True/False for valid bet
+
+	// Seed the random number generator use the timer
+	srand((unsigned)time(NULL));
+	for (i = 0; i<rand(); i++)
+		rand();
+
+	// Assign money
+	money = rand() % 1000 + 1;
+
+	// Introduce
+	text_colour(f_blue, b_black);     // Colour
+	cout << "This is an update of previous dice program!" << endl;
+	cout << "New feature:" << endl;
+	cout << "- All in option and play again." << endl;
+
+	// Main game - Run while use want to pla again
+	do
+	{
+		cout << endl;     // Space
+
+		// Generate random - Dice
+		dice_1 = rand() % 6 + 1;          // Random for dice #1 (1-6)
+		dice_2 = rand() % 6 + 1;          // Random for dice #2 (1-6)
+		t_dice = dice_1 + dice_2;
+
+		// Get and Confirm - Info
+		do
+		{
+			// Get info - Bet
+			do
+			{
+				// Print info - Money
+				text_colour(f_white, b_black);     // Colour
+			    cout << "You have $" << money << endl;
+
+				// Get info - Bet
+				cout << "Please enter the amount of money you want to bet? (Input '0' if you want to go all in!) $";
+				cin >> bet;
+				cout << endl;
+
+				// Check - bet
+				if (cin.fail() || bet > money || bet < 0)
+				{
+					// Print error
+					text_colour(f_red, b_black);     // Colour
+					cout << "INVALID BET" << endl;
+					text_colour(f_dred, b_black);     // Colour
+					cout << "Please enter bet that is smaller/equal to money and it cannot be negative!" << endl;
+					if (cin.fail())
+						cin.clear();     // Clear error state of stream - If
+					bet_valid = false;
+					cout << endl << endl;     // Space
+				} // If
+				else
+					bet_valid = true;
+				cin.ignore(255, '\n');     // Clear out remainder of input line
+			} while (bet_valid == false);     // Do
+			
+			// All in option
+			if (bet == 0)
+				bet = money;
+
+			// Print info and Confirm
+			text_colour(f_white, b_black);     // Colour
+			cout << "You have $" << money << endl;
+			cout << "So... You want to bet $" << bet << endl;
+			cout << "Are you sure about this? (Y/N) ";
+		} while (toupper(_getch()) != 'Y');     // Do
+		cout << "Y" << endl;
+
+		// Input - Guess
+		do
+		{
+			// Get info - Guess
+			text_colour(f_white, b_black);     // Colour
+			cout << "What do you guess the dice role will be? (2-12) ";
+			cin >> guess;
+
+			// Check guess
+			if (cin.fail() || (guess > 12 || guess < 2))
+			{
+				if (cin.fail())
+					cin.clear();     // Clear error state of stream - If
+				// Print error
+				text_colour(f_red, b_black);     // Colour
+				cout << "Guess invalid!" << endl;
+				text_colour(f_dred, b_black);     // Colour
+				cout << "Please re-enter your guess from 2 to 12!" << endl;
+				bet_valid = false;
+			} // If
+			else
+				bet_valid = true;
+			cin.ignore(255, '\n');     // Clear out remainder of input line
+		} while (bet_valid == false);     // Do
+
+		// Print dice #1
+		text_colour(f_yellow, b_black);     // Colour
+		switch (dice_1)
+		{
+		case 1: cout << "===========" << endl;
+			cout << "|         |" << endl;
+			cout << "|    1    |" << endl;
+			cout << "|         |" << endl;
+			cout << "===========" << endl;
+			break;
+
+		case 2: cout << "===========" << endl;
+			cout << "| 2       |" << endl;
+			cout << "|         |" << endl;
+			cout << "|       2 |" << endl;
+			cout << "===========" << endl;
+			break;
+
+		case 3: cout << "===========" << endl;
+			cout << "| 3       |" << endl;
+			cout << "|    3    |" << endl;
+			cout << "|       3 |" << endl;
+			cout << "===========" << endl;
+			break;
+
+		case 4: cout << "===========" << endl;
+			cout << "| 4     4 |" << endl;
+			cout << "|         |" << endl;
+			cout << "| 4     4 |" << endl;
+			cout << "===========" << endl;
+			break;
+
+		case 5: cout << "===========" << endl;
+			cout << "| 5     5 |" << endl;
+			cout << "|    5    |" << endl;
+			cout << "| 5     5 |" << endl;
+			cout << "===========" << endl;
+			break;
+
+		case 6: cout << "===========" << endl;
+			cout << "| 6     6 |" << endl;
+			cout << "| 6     6 |" << endl;
+			cout << "| 6     6 |" << endl;
+			cout << "===========" << endl;
+			break;
+		} // Dice 1
+
+		// Print dice #2
+		text_colour(f_dyellow, b_black);     // Colour
+		switch (dice_2)
+		{
+		case 1: cout << "===========" << endl;
+			cout << "|         |" << endl;
+			cout << "|    1    |" << endl;
+			cout << "|         |" << endl;
+			cout << "===========" << endl;
+			break;
+
+		case 2: cout << "===========" << endl;
+			cout << "| 2       |" << endl;
+			cout << "|         |" << endl;
+			cout << "|       2 |" << endl;
+			cout << "===========" << endl;
+			break;
+
+		case 3: cout << "===========" << endl;
+			cout << "| 3       |" << endl;
+			cout << "|    3    |" << endl;
+			cout << "|       3 |" << endl;
+			cout << "===========" << endl;
+			break;
+
+		case 4: cout << "===========" << endl;
+			cout << "| 4     4 |" << endl;
+			cout << "|         |" << endl;
+			cout << "| 4     4 |" << endl;
+			cout << "===========" << endl;
+			break;
+
+		case 5: cout << "===========" << endl;
+			cout << "| 5     5 |" << endl;
+			cout << "|    5    |" << endl;
+			cout << "| 5     5 |" << endl;
+			cout << "===========" << endl;
+			break;
+
+		case 6: cout << "===========" << endl;
+			cout << "| 6     6 |" << endl;
+			cout << "| 6     6 |" << endl;
+			cout << "| 6     6 |" << endl;
+			cout << "===========" << endl;
+			break;
+		} // Dice 2
+
+		// Calculate - Result
+		if (t_dice == guess)
+		{
+			win = bet * 7;
+			money += win;
+			// Print - Congratulation
+			text_colour(f_green, b_black);     // Colour
+			// Print congratulation
+			cout << "Congratulation!!! You were correct." << endl;
+			cout << "You win $" << bet << " x 7 = $" << win << endl;
+			cout << "YOu current money is $" << money << endl;
+			cout << endl;     // Space
+		} // If
+		else
+		{
+			money -= bet;
+			// Print - Wrong
+			text_colour(f_red, b_black);     // Colour
+			// Print wrong
+			cout << "You wrong!" << endl;
+			cout << "You lose your bet: $" << bet << endl;
+			cout << "You current money is $" << money << endl;
+			cout << endl;     // Space
+		} // Else
+
+		// Play again
+		if (money == 0)     // Lose all money
+		{
+			text_colour(f_red, b_black);     // Colour
+			// Kick
+			cout << "You no longer have the value for us to use anymore! Get Out..." << endl;
+			play_yn = 'N';
+		} // If
+		else     // If user want to play again (With money)
+		{
+			text_colour(f_white, b_black);     // Colour
+			// Ask user if they want to play again
+			cout << "Do you want to play again? (Y/N) ";
+			play_yn = toupper(_getch());
+			cout << play_yn << endl;
+		} // Else
+	} while (play_yn == 'Y'); // Do... I try to do "} while(toupper(_getche()));" but doesn't figure a way to do it
+	cout << endl;     // Space
+
+	// Print final
+	if (money > 0)
+	{
+		text_colour(f_green, b_black);     // Colour
+		// Print cheque
+		cout << "I hope you enjoy the game and obvioustly you did not lose all your money to see this!" << endl;
+		cout << "You go home with $" << money << endl << endl;
+		cout << "This is your cheque:" << endl;
+		cout << "====================" << endl;
+		cout << "| To: You :v        " << endl;
+		cout << "|          $" << money << endl;
+		cout << "====================" << endl;
+	} // If
+	else
+	{
+		// Print "Goodbye"
+		text_colour(f_red, b_black);     // Colour
+		cout << "GoodBye..." << endl;
+	} // Else
+
+	// Reset colour
+	text_colour(f_gray, b_black);     // Colour
+	return 0;
+} // Main
