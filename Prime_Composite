@@ -1,0 +1,112 @@
+/* Duy Anh Nguyen
+Dec. 17
+Prime_Composite
+This program was written to help user find factors of a number (Must be 2 or greater) and print if it 'PRIME' or 'COMPOSITE'.
+
+Process:
+- Ask for amounts of value.     (Must be 1 or greater)
+- Find factors of the number user give.     (Must be 2 or greater)
+- Determine/Print all factors and either the number is 'PRIME' or 'COMPOSITE'.
+- Repeat the process base on amounts of value.*/
+
+#include <iostream>
+#include <Windows.h>
+#include "colours.h"
+using namespace std;
+
+// Main Program
+int main()
+{
+	int n_value;                              // Number of values
+	int value_t;                              // Number of value time
+	int value;                                // Value
+	int test_factor;                          // Test factor (Use to find the factor of a number given by user)
+	int n_factor;                             // Number of factor
+
+	// Introduce the program
+	text_colour(f_blue, b_black);
+	cout << "This program was written to help user find factors of a number and print if it 'PRIME' or 'COMPOSITE'." << endl;
+
+	// Get info - number of value
+	text_colour(f_white, b_black);     // Colour
+	cout << "How many values? ";
+	cin >> n_value;
+	
+	// Check input - Number of Value
+	while (cin.fail() || n_value < 1)
+	{
+		if (cin.fail())
+			cin.clear();     // Clear error state of stream - If
+		cin.ignore(255, '\n');     // Clear out remainder of input line
+
+		// Print wrong and re-enter number of value
+		text_colour(f_red, b_black);     // Colour
+		cout << "Invalid value!" << endl;
+		text_colour(f_dred, b_black);     // Colour
+		cout << "Please re-enter the number of value: ";
+		text_colour(f_white, b_black);     // Colour
+		cin >> n_value;
+	} // While - Check input - Number of Value
+	cin.ignore(255, '\n');    // Clear out remainder of input line
+
+	// Loop number of value
+	for (value_t = 1; value_t <= n_value; value_t++)
+	{
+		// Assign
+		n_factor = 1;     // Number of Factors
+
+		// Get info - Value
+		text_colour(f_white, b_black);
+		cout << "Please enter value #" << value_t << " (Must be 2 or greater): ";
+		cin >> value;
+		
+		// Check user input - Value
+		while (cin.fail() || value < 2)
+		{
+			if (cin.fail())
+				cin.clear();     // Clear error state of stream - If
+			cin.ignore(255, '\n');     // Clear out remainder of input line
+
+			// Print wrong and re-enter value
+			text_colour(f_red, b_black);
+			cout << "Invalid value!" << endl;
+			text_colour(f_dred, b_black);     // Colour
+			cout << "Please re-enter value #" << value_t << " (Must be 2 or greater): ";
+			text_colour(f_white, b_black);     // Colour
+			cin >> value;
+		} // While - Check input - Value
+		cin.ignore(255, '\n');     // Clear out remainder of input line
+
+		// Print result
+		text_colour(f_white, b_black);     // Colour
+		cout << "The factors of " << value << " are 1 ";
+
+		// Loop factor
+		for (test_factor = 2; test_factor <= value; test_factor++)
+		{
+			if (value % test_factor == 0)
+			{
+				// Print the factor
+				text_colour(f_white, b_black);     // Colour
+				cout << test_factor << " ";
+				n_factor++;     // Update - 'Number of factor'
+			} // If
+		} // For Loop - Factor
+		
+		// Check and Print - 'PRIME' or 'COMPOSITE'
+		if (n_factor == 2)
+		{ 
+			cout << endl;
+			cout << "It is 'PRIME'." << endl;
+		} // If
+		else
+		{
+			cout << endl;
+			cout << "It is 'COMPOSITE'." << endl;
+		} // Else
+	} // For Loop - Number of value
+
+	// Reset colour
+	text_colour(f_gray, b_black);
+	return 0;
+} // Main
