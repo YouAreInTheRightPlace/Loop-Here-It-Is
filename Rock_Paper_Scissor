@@ -1,0 +1,189 @@
+/* Duy Anh Nguyen
+Dec. 28
+Rock_Paper_Scissor
+This program was written to support the 'HaperTime Donation'. User could bet and choose their choice (R)ock, (P)aper, (S)issor.
+Process:
+- Take bet (All in option is available)
+- Take choice
+- Check result
+- Print result*/
+
+#include <iostream>
+#include <string>
+#include <conio.h>
+#include <time.h>
+#include <Windows.h>
+#include "Colours.h"
+using namespace std;
+
+// Main Program
+int main()
+{
+	int money;               // User money
+	int bet;                 // User bet
+	char choice;             // User choice (R)ock, (P)aper, (S)cissor
+	int choice_c;            // choice conversion into interger
+	char play_yn;            // User choice to play again (Y/N)
+	int com;                 // Conputer choice Rock-0; Paper-1, Scissor-2
+	int i;                   // Random generator
+
+	// Seed the random number generator use the timer
+	srand((unsigned)time(NULL));
+	for (i = 0; i<rand(); i++)
+		rand();
+
+	// Assign - Money
+	money = rand() % 1000 + 1;
+
+	// Introduce
+	text_colour(f_blue, b_black);     // Colour
+	cout << "Welcome to the HamperTime Casino!" << endl;
+	cout << "Try to win and... PLEASE, PLEASE! DO NOT! get arrested!" << endl;
+
+	// Main game
+	do
+	{
+		cout << endl;     // Space
+
+		// Print info - Money
+		text_colour(f_white, b_black);     // Colour
+		cout << "You have $" << money << endl;
+		
+		// Get info - Bet
+		cout << "How much do you want to bet? (Press '0' if you want to go all in) $";
+		cin >> bet;
+
+		// All in option
+		if (bet == 0)
+			bet = money;
+
+		// Check info - Bet
+		while (cin.fail() || bet > money || bet < 0)
+		{
+			// Check error - cin
+			if (cin.fail())
+				cin.clear();     // Clear error state of stream - If
+			cin.ignore(255, '\n');     // Clear out remainder of input line
+
+			// Print error
+			text_colour(f_red, b_black);     // Colour
+			cout << "INVALID BET! You cannot bet more or less than what you have." << endl;
+
+			// Re-enter info - Bet
+			text_colour(f_white, b_black);     // Colour
+			cout << "Your curent balance is $" << money << endl;
+			cout << "How much do you want to bet? $";
+			cin >> bet;
+		} // While
+		cin.ignore(255, '\n');     // Clear out remainder of input line
+
+		// User choice
+		cout << "Do you choose (R)ock, (P)aper, or (S)cissor? ";
+		choice = toupper(_getch());
+		cout << choice << endl;     // Space
+
+		// Check input - Choice
+		while (choice != 'R' && choice != 'P' && choice != 'S')
+		{
+			text_colour(f_red, b_black);     // Colour
+			cout << "INVALID choice!" << endl;
+			text_colour(f_white, b_black);     // Colour
+			cout << "Do you choose (R)ock, (P)aper, or (S)cissor? ";
+			choice = toupper(_getch());
+			cout << choice << endl;
+		} // While
+
+		// Random computer choice
+		com = rand() % 3;
+
+		// Print result
+		text_colour(f_yellow, b_black);     // Colour
+		cout << "I chose ";
+
+		// Convert - Computer choice
+		text_colour(f_white, b_black);     // Colour
+		switch (com)
+		{
+		case 0: cout << "Rock"; break;
+		case 1: cout << "Paper"; break;
+		case 2: cout << "Scissor"; break;
+		} // Switch
+		text_colour(f_white, b_black);     // Colour
+		cout << ". ";
+
+		// Print result
+		if (choice == 'R')          // User choice - Rock
+			switch (com)
+			{
+			case 0: text_colour(f_white, b_black);     // Colour                  // Draw
+				cout << "Since we both chose Rock, you still have $" << money << endl; break;
+
+			case 1: money -= bet;                                                 // Lose
+				text_colour(f_red, b_black);     // Colour
+				cout << "Since Paper covers Rock, you lose $" << bet << " - you now have $" << money << endl; break;
+
+			case 2: money += bet;                                                 // Win
+				text_colour(f_green, b_black);     // Colour
+				cout << "Since Rock crushes Scissor, you win $" << bet << " - you now have $" << money << endl; break;
+			} // Switch
+
+		else if (choice == 'P')     // User choice - Paper
+			switch (com)
+			{
+			case 0: money += bet;                                                 // Win
+				text_colour(f_green, b_black);     // Colour
+				cout << "Since Paper covers Rock, you win $" << bet << " - you now have $" << money << endl; break;
+
+			case 1: text_colour(f_white, b_black);     // Colour                  // Draw
+				cout << "Since we both chose Paper, you still have $" << money << endl; break;
+
+			case 2: money -= bet;                                                 // Lose
+				text_colour(f_red, b_black);     // Colour
+				cout << "Since Scissor cut Paper, you lose $" << bet << " - you now have $" << money << endl; break;
+			} // Switch
+
+		else                        // User choice - Scissor
+			switch (com)
+			{
+			case 0: money -= bet;                                                 // Lose
+				text_colour(f_red, b_black);     // Colour
+				cout << "Since Rock crushes Scissor, you lose $" << bet << " - you now have $" << money << endl; break;
+
+			case 1: money += bet;                                                 // Win
+				cout << "Since Scissor cut Paper, you win $" << bet << " - you now have $" << money << endl; break;
+
+			case 2: text_colour(f_white, b_black);     // Colour                  // Draw
+				cout << "Since we both chose Scissor, you still have $" << money << endl; break;
+			} // Switch
+
+		// Ensure user still have money to continue play
+		if (money == 0)
+		{
+			play_yn = 'N';
+		} // If
+		else
+		{
+			// Ask if user want to play again
+			text_colour(f_white, b_black);     // Colour
+			cout << "Do you want to play again? (Y/N) ";
+			play_yn = toupper(_getch());
+			cout << play_yn << endl;
+		} // Else
+	} while (play_yn == 'Y');     // Do - Main game
+
+	if (money == 0)
+		cout << "Since you are out of money, you must now leave the casino - SECURITY!!!!!" << endl;     // Kick - If
+	else
+	{
+		// Print cheque
+		cout << "You now have $" << money << endl;
+		cout << "======================================" << endl;
+		cout << "|  To: YOU!                          |" << endl;
+		cout << "|                          $" << money << endl;
+		cout << "=====================================|" << endl;
+	} // Else
+
+	// Reset colour
+	text_colour(f_gray, b_black);     // Colour
+	return 0;
+} // Main
