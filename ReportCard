@@ -1,0 +1,175 @@
+/* Duy Anh Nguyen
+Dec. 27
+Cards_of_Black_Friday  (Which have nothing relate to 'Cards of Destiny' and there for I did not touch anything about the Card of destiny friday copyright)
+This program was written to help user increase their psychic ability to "PREPARE" for cards of destiny friday (this program open for Mr. Scott's student; 
+however, does not open for Mr. Scott himself because he is too psychic are ready! that why we can't win a single game in 2016). User require to
+guess 3 correct to end the game.
+Process:
+- Ask user guess.
+- Check user guess.
+- Ask again until user got 3 right.
+- Print out percentage of time user guess right and percentage of time a card pop up.*/
+
+#include <iostream>
+#include <string>
+#include <conio.h>
+#include <iomanip>
+#include <time.h>
+#include <Windows.h>
+#include "Colours.h"
+using namespace std;
+
+// Main Program
+int main()
+{
+	// Number of time cards pop up
+	int num_h = 0;              // Numbers of time the 'Hearts' pop up
+	int num_d = 0;              // Numbers of time the 'Diamonds' pop up
+	int num_c = 0;              // Numbers of time the 'Clubs' pop up
+	int num_s = 0;              // Numbers of time the 'Spades' pop up
+	// Percentage of time suit pop up
+	float per_h;                // Percentage of time the suit 'Heart' pop up
+	float per_d;                // Percentage of time the suit 'Diamond' pop up
+	float per_c;                // Percentage of time the suit 'Club' pop up
+	float per_s;                // Percentage of time the suit 'Spade' pop up
+	// Print card shape
+	char h = 3;                 // Hearts
+	char d = 4;                 // Diamonds
+	char c = 5;                 // Clubs
+	char s = 6;                 // Spades
+	// Round
+	float num = 0;              // Number of rounds/games
+	int g_correct = 3;          // NUmber of time user have toget correct
+	int correct = 0;            // Number of time user correct
+	char guess;                 // User guess
+	int choice;                 // User choice converting into interger
+	float per;                  // Percent of time user guess right
+	int suit;                   // Random suit
+	int i;                      // Random generator
+
+	// Seed the random number generator use the timer
+	srand((unsigned)time(NULL));
+	for (i = 0; i<rand(); i++)
+		rand();
+
+	// Introduce
+	text_colour(f_blue, b_black);     // Colour
+	cout << "This game is partly copy from Card of Destiny Friday." << endl;
+	cout << "User have to guess 3 time(s) right for the game to end." << endl;
+	
+	// Main game
+	do
+	{
+		// Add round
+		num++;
+
+		// Get info - Guess
+		text_colour(f_white, b_black);     // Colour
+		cout << "Round " << num << ": Guess the suit - (H)earts, (D)iamonds, (C)lubs, or (S)pades? ";
+		guess = toupper(_getch());
+		cout << guess << endl;
+
+		// Check input - Guess
+		while (guess != 'H' && guess != 'D' && guess != 'C' && guess != 'S')
+		{
+			text_colour(f_red, b_black);     // Colour)
+			cout << "INVALID GUESS!" << endl;
+			cout << "Guess the suit - (H)earts, (D)iamonds, (C)lubs, or (S)pades? ";
+			guess = toupper(_getch());
+			cout << guess << endl;
+		} // While - Check guess
+
+		// Converting user guess into interger for check
+		switch (guess)
+		{
+		case 'H': choice = 3; break;
+		case 'D': choice = 4; break;
+		case 'C': choice = 5; break;
+		case 'S': choice = 6; break;
+		} // Switch - Guess
+
+		// Random suit
+		suit = rand() % 4 + 3;
+
+		// Print answer
+		text_colour(f_white, b_black);     // Colour
+		cout << "It was ";
+
+		// Print suit
+		switch (suit)
+		{
+		case 3: text_colour(f_red, b_white);     // Colour
+			cout << h; num_h++; break;     // Hearts
+		case 4: text_colour(f_red, b_white);     // Colour
+			cout << d; num_d++; break;     // Diamonds
+		case 5: text_colour(f_black, b_white);     // Colour
+			cout << c; num_c++; break;     // Clubs
+		case 6: text_colour(f_black, b_white);     // Colour
+			cout << s; num_s++; break;     // Spades
+		} // Switch - Print suit
+		
+		// Check answer and print if user (right/wrong)
+		if (choice == suit)
+		{
+			// Update info
+			correct++;
+			g_correct--;
+			// Print result
+			text_colour(f_green, b_black);     // Colour
+			cout << " - You were right! You have " << correct << " correct - " << g_correct << " to go!" << endl;
+		} // If
+
+		else
+		{
+			text_colour(f_red, b_black);     // Colour
+			cout << " - You were wrong! You have " << correct << " correct - " << g_correct << " to go!" << endl;
+		}
+	} while (g_correct != 0); // Do
+
+	// Calculate result - Percentage
+	per = (3 * 100) / num;
+	per_h = (num_h * 100) / num;
+	per_d = (num_d * 100) / num;
+	per_c = (num_c * 100) / num;
+	per_s = (num_s * 100) / num;
+
+	// Print final result
+	// Print your input
+	text_colour(f_cyan, b_black);     // Colour
+	cout << "It took " << num << " rounds to win and you were right ";
+	text_colour(f_green, b_black);     // Colour
+	cout << fixed << setprecision(1) << per << "%";
+	text_colour(f_cyan, b_black);     // Colour
+	cout << " of the time." << endl;
+
+	// Print card info
+	// Hearts
+	text_colour(f_cyan, b_black);     // Colour
+	cout << "In total, " << h << " came up " << num_h << " time(s) (";
+	text_colour(f_green, b_black);     // Colour
+	cout << fixed << setprecision(1) << per_h << "%";
+
+	// Diamonds
+	text_colour(f_cyan, b_black);     // Colour
+	cout << "), " << d << " came up " << num_d << " time(s) (";
+	text_colour(f_green, b_black);     // Colour
+	cout << fixed << setprecision(1) << per_d << "%";
+	
+	// Clubs
+	text_colour(f_cyan, b_black);     // Colour
+	cout << "), " << c << " came up " << num_c << " time(s) (";
+	text_colour(f_green, b_black);     // Colour
+	cout << fixed << setprecision(1) << per_c << "%";
+	
+	// Spades
+	text_colour(f_cyan, b_black);     // Colour
+	cout << "), " << s << " came up " << num_s << " time(s) (";
+	text_colour(f_green, b_black);     // Colour
+	cout << fixed << setprecision(1) << per_s << "%";
+	text_colour(f_cyan, b_black);     // Colour
+	cout << ")." << endl;
+
+	// Reset colour
+	text_colour(f_gray, b_black);     // Colour
+	return 0;
+} // Main
